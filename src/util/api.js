@@ -31,14 +31,16 @@ function ajax(url, data = {}, type = "GET") {
   return new Promise((resolve, reject) => {
     let promise;
     //1、执行异步ajax请求
+    axios.defaults.withCredentials = true
     if (type === "GET") {
       promise = axios.get(serverUrl+url, {
         params: data
       });
     } else {
-      promise = axios.post(serverUrl+url, data);
+      
+      promise = axios.post(serverUrl + url, data);
     }
-
+    // Cookie跨域
     promise
       .then(response => {
         //2、如果成功，调用resolve()
@@ -47,7 +49,18 @@ function ajax(url, data = {}, type = "GET") {
       .catch(error => {
         //3、如果失败，不调用reject(),而是提示异常信息（可以结合第三方框架）
         //console.log(error.response)
-        message.error(error.response.data.message);
+        if(error.response!=null){
+          if(error.response.data!=null){
+            if(error.response.data.message!=null){
+              console.log(error.response.data.message)
+              message.error(error.response.data.message);
+            }
+          }
+        }else{
+          console.log(error)
+          message.error("error");
+        }
+        
       });
   });
 }
@@ -92,11 +105,36 @@ const  api =  {
 
   getProfile:function(){
     return ajax('/user/session');
-  }  
+  },
 
+  getBookList:function(data){
+    return ajax('/book/list',data,'POST');
+  },
+
+  getDetail:function(data){
+    return ajax('/book/queryDetail',data)
+  },
   
-}
+  borrow : function(data){
+    return ajax('/book/borrow',data,"POST")
+  },
 
+  getBorrowList:function(data){
+    return ajax('/book/borrowList',data,"POST")
+  },
+
+  getBookName:function(data){
+    return ajax('/book/getBookName',data)
+  },
+
+  userUpdate:function(data){
+    return ajax("/user/update",data,"POST")
+  },
+
+  returnBook:function(data){
+    return ajax("/book/return",data)
+  }
+}
 export default api;
 
 

@@ -1,0 +1,19 @@
+.box{
+    width: 800px;
+    height:500px;
+}
+
+.card{
+    position: relative;
+    right: 200px;
+    top: 10px;
+    width:300px;
+}
+
+.UserInfo{
+    position: relative;
+    left: 300px;
+    top: -250px;
+    width:550px;
+    height: 300px;
+}

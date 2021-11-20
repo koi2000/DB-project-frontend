@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/compatible": "^1.0.8",
     "@babel/core": "7.12.3",
     "@craco/craco": "^6.4.0",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",

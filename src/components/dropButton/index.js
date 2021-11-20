@@ -4,10 +4,12 @@ import React from 'react';
 import api from '../../util/api';
 import store from '../../store';
 import {saveAction} from "../../action/index"
+import { useHistory } from 'react-router';
 
 
 function DropButton(props){
       
+  const history = useHistory();
       function handleMenuClick(e) {
         //message.info('Click on menu item.');
         console.log('click', e.key);
@@ -16,27 +18,10 @@ function DropButton(props){
             api.logout();
         }
         if(e.key==='2'){
-
-          props.props.history.push('/profile')
-          //const action  = saveAction();
-          //console.log(store)
-          //store.dispatch(action)
-          //let res = store.getState();
-          //console.log(res)
-          /*
-            api.getProfile().then((response)=>{
-              console.log(response);
-              let data = response.data;
-              //console.log(data)
-              //props.props.history.push("/profile",{data:da});
-              props.props.history.push({ pathname: '/profile',state:{data:data}})  
-            })*/
-            
-           //console.log(props.props.history)
-           //props.props.history.push("/profile",{})
+          history.push('/profile')
         }
         if(e.key==='3'){
-          props.props.history.push('/chatRoom')
+          history.push('/chatRoom')
         }
       }
     
@@ -61,8 +46,7 @@ function DropButton(props){
                     Here <DownOutlined />
                 </Button>
             </Dropdown>
-        </div>
-        
+        </div>   
     );
 }
 

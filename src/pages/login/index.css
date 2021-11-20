@@ -1,7 +1,11 @@
 Form{
     width: 480px;
-    position: fixed;
-    left: 30%;
-    top: 30%;
+    position: absolute;
+    top:300px;
+    right:50px;
 }
-  
+
+p{
+    position:absolute;
+    right:50px
+}

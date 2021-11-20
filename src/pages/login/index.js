@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Form,Input, Button, Checkbox} from "antd";
 import "./index.css";
-//import axios from 'axios';
-//import { serverUrl } from '../../config';
+import logo1 from '../../asserts/img/logo3.jpg';
+
 import  api  from "../../util/api";
+import LoginBeauty from '../../components/login_page';
+
 
 class Login extends Component {
 
@@ -12,10 +14,10 @@ class Login extends Component {
       super(props);
       this.props=props;
     }
-
     
     render() {
 
+      
       const onFinish = (values) => {
         
         console.log(values.username);
@@ -74,8 +76,12 @@ class Login extends Component {
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
       };
+      console.log("进入登陆")
       return (
-        
+        <LoginBeauty/>
+        /*<div>
+          <p >图书信息管理系统</p>
+          <img src={logo1} style ={{width:"1050px",height:"800px"}}alt='logo'/>
         <Form 
           name="basic"
           labelCol={{
@@ -90,7 +96,6 @@ class Login extends Component {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          
         >
           <Form.Item
             label="Username"
@@ -139,7 +144,9 @@ class Login extends Component {
               Submit
             </Button>
           </Form.Item>
-        </Form>
+          </Form>
+        </div>
+        */
       );
     }
 }
