@@ -18,7 +18,7 @@ import { saveAction } from '../action';
 const cookieName = 'UserInfo'
 
 
-axios.defaults.baseURL = serverUrl;
+//axios.defaults.baseURL = serverUrl;
 axios.defaults.withCredentials = true;
 
 /*
@@ -70,6 +70,16 @@ export const loginUser = () => {
   return cookie.load(cookieName)
 }
 
+//查看是否登陆
+export const isLogin = () => {
+  let user =  cookie.load(cookieName)
+  if(user===null||user===undefined){
+    return false
+  }else{
+    return true
+  }
+}
+
 // 用户登录，保存cookie
 export const onLogin = (user) => {
   cookie.save(cookieName, user, { path: '/' })
@@ -79,10 +89,6 @@ export const onLogin = (user) => {
 export const onLogout = () => {
   cookie.remove('userInfo')
   window.location.href = '/login'
-}
-
-export const isLogin = () => {
-
 }
 
 
@@ -133,6 +139,20 @@ const  api =  {
 
   returnBook:function(data){
     return ajax("/book/return",data)
+  },
+
+  getDefaultList:function(data){
+    return ajax("/default/list",data,"POST")
+  },
+
+  createBook:function(data){
+    return ajax("/manage/book/create",data,"POST")
+  },
+  updateBook:function(data){
+    return ajax("/manage/book/update",data,"POST")
+  },
+  uploadFile:function(data){
+    return ajax("/file/upload",data,"POST")
   }
 }
 export default api;

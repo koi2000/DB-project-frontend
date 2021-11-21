@@ -2,6 +2,7 @@
   "name": "project-test",
   "version": "0.1.0",
   "private": true,
+  "homepage":"./",
   "dependencies": {
     "@ant-design/compatible": "^1.0.8",
     "@babel/core": "7.12.3",

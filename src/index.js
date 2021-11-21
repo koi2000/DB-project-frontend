@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import 'antd/dist/antd.css'
 import { Route } from 'react-router';
-import { HashRouter, Switch, Redirect } from 'react-router-dom'
+import { HashRouter, Switch, Redirect, BrowserRouter } from 'react-router-dom'
 import { mainRoutes } from "./routes";
 import {Provider} from 'react-redux'
 import store from "./store/index"
@@ -13,7 +13,7 @@ ReactDOM.render(
   /*<Provider store={store}>
     <HashRouter>
       <Switch>
-        <Route path="/" render={routeProps => <App {...routeProps} />} />
+        <Route path="/" render={() => <App/>} />
         {mainRoutes.map(route => {
           return <Route key={route.path} {...route} />;
         })}
@@ -21,7 +21,7 @@ ReactDOM.render(
         <Redirect to="/404" />
       </Switch>
     </HashRouter>
-      </Provider>,*/
+  </Provider>,*/
   /*<div>
     <Router >
       <Switch>
@@ -43,6 +43,7 @@ ReactDOM.render(
     <HashRouter>
       <App/>
     </HashRouter>
+      
   </Provider>,
   
 

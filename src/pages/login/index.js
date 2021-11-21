@@ -145,8 +145,8 @@ class Login extends Component {
             </Button>
           </Form.Item>
           </Form>
-        </div>
-        */
+        </div>*/
+        
       );
     }
 }

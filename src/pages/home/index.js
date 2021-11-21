@@ -16,6 +16,7 @@ import BorrowList from '../../components/borrowList';
 import DropDown from '../../components/dropDown';
 import api from '../../util/api';
 import { DownOutlined } from '@ant-design/icons';
+import DefaultList from '../../components/defaultList';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -86,7 +87,6 @@ function Home (props) {
     };
 
     function handleMenuClick(e) {
-        //message.info('Click on menu item.');
         console.log('click', e.key);
         if(e.key==='1') {
             setDropdown(null);
@@ -119,35 +119,61 @@ function Home (props) {
                 筛选 <DownOutlined />
                 </a>
             </Dropdown>);
-            
         }
         if(e.key==='3'){
-          
+            setBookLists(null)
+            setDropdown(null);
+            const data = {
+                pageNow:0,
+                pageSize:10
+            }
+            let responseData = []
+            api.getDefaultList(data).then((response)=>{
+                responseData = response.data.rows
+            }).then((response)=>{
+                let bookList = []
+                //console.log("ss"+responseData.length);
+                for (let i = 0; i < responseData.length; i+=1) {  // for循环数组
+                    console.log(responseData[i]);
+                    bookList.push(  //将组件塞入定义的数组中
+                        <DefaultList data={responseData[i]}/>
+                    );
+                }
+                setBookLists(bookList);
+            })
         }
       }
+      var responseData = []
       const returnBook = (e)=>{
-        //console.log(bookLists)
-        //console.log("res")
         console.log(e)
-        console.log(borrowRow)
-        /*api.returnBook({
-            borrowHistoryId:borrowRow[e].borrowHistoryId
+        console.log("cs"+responseData[e].borrowHistoryId)
+        api.returnBook({
+            borrowHistoryId:responseData[e].borrowHistoryId
         }).then((response)=>{
+            setBorrowList({
+                pageNow:0,
+                pageSize:10
+            });
             message.success("还书成功")
-        })*/
+        })
       }
 
+      const change = (data) =>{
+        return setBorrowRow(data => {
+            console.log("内部")
+            console.log(data)
+            return data;
+        });
+      }
       const setBorrowList = (data)=>{
 
         setBookLists(null);
-        let responseData = []
+        
         let bookList = []
         api.getBorrowList(data).then((response)=>{
             responseData = response.data.rows
-            console.log("这里")
-            console.log(responseData)
-            setBorrowRow(responseData);
-            console.log("后"+borrowRow)
+            //console.log(responseData)
+            //let er = change(responseData);
         }).then((response)=>{
             for (let i = 0; i < responseData.length; i+=1) {  // for循环数组
                 //console.log("驻足"+responseData[i]);
@@ -172,6 +198,11 @@ function Home (props) {
                 
             }
             setBookLists(bookList);
+            /*setBorrowRow(responseData => {
+                console.log("内部")
+                console.log(responseData)
+                return responseData;
+            });*/
         })
       }
 

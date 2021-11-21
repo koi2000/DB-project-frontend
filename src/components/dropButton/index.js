@@ -23,18 +23,24 @@ function DropButton(props){
         if(e.key==='3'){
           history.push('/chatRoom')
         }
+        if(e.key==='4'){
+          history.push("/manage")
+        }
       }
     
     const menu = (
         <Menu onClick={handleMenuClick}>
           <Menu.Item key="1" icon={<UserOutlined />}>
-            louout
+            Louout
           </Menu.Item>
           <Menu.Item key="2" icon={<UserOutlined />}>
-            profile
+            Profile
           </Menu.Item>
           <Menu.Item key="3" icon={<UserOutlined />}>
-            chat
+            Chat
+          </Menu.Item>
+          <Menu.Item key="4" icon={<UserOutlined />}>
+            Manage
           </Menu.Item>
         </Menu>
     );

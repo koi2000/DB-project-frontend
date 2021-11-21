@@ -45,33 +45,43 @@ function ChatRoom(props){
     
     const inputVal = useRef(null)
 
-    var ws = new WebSocket("ws://"+"localhost:8002"+"/WebSocket/1");
-    
-    //监听是否连接成功
-    ws.onopen = function () {
-        console.log('ws连接状态：' + ws.readyState);
-        //连接成功则发送一个数据
-        ws.send('test1');
-    }
-    //接听服务器发回的信息并处理展示
-    ws.onmessage = function (messages) {
-        console.log('接收到来自服务器的消息：');
-        console.log(messages.data);
-        setMessage(messages.data)
-    }
-    //监听连接关闭事件
-    ws.onclose = function () {
-        //监听整个过程中websocket的状态
-        console.log('ws连接状态：' + ws.readyState);
-    }
-  
-    ws.onerror = function (error) {
-        console.log(error);
+    const createWebsocket=()=>{
+        var ws = new WebSocket("ws://"+"localhost:8002"+"/WebSocket/1");
+        
+        //监听是否连接成功
+        ws.onopen = function () {
+            console.log('ws连接状态：开启' + ws.readyState);
+            //连接成功则发送一个数据
+            ws.send(JSON.stringify("message"));
+        }
+        //接听服务器发回的信息并处理展示
+        ws.onmessage = function (messages) {
+            console.log('接收到来自服务器的消息：');
+            console.log(messages.data);
+            setMessage(messages.data)
+        }
+        //监听连接关闭事件
+        ws.onclose = function () {
+            //监听整个过程中websocket的状态
+            console.log('ws连接状态：关闭' + ws.readyState);
+        }
+      
+        ws.onerror = function (error) {
+            console.log(error);
+        }
+        return ws;
     }
 
     const sendMessage = ()=>{
+        let ws = createWebsocket();
         console.log(inputVal.current.resizableTextArea.textArea.value)
-        ws.send(inputVal.current.resizableTextArea.textArea.value)
+        let value = inputVal.current.resizableTextArea.textArea.value;
+        let messages = JSON.stringify(value);
+            //添加事件监听
+        ws.addEventListener('open', function () {
+            ws.send(messages)
+        });
+        //ws.send(JSON.stringify(value))
     }
 
     return (

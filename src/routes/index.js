@@ -3,6 +3,8 @@ import Home from "../pages/home/index";
 import PageNotFound from "../pages/pageNotFound";
 import UserInfo from "../pages/userInfo";
 import ChatRoom from "../pages/chatRoom";
+import ManageHome from "../pages/manageHome";
+import BookUpdate from "../components/bookUpdate";
 
 export const mainRoutes = [
   {
@@ -24,6 +26,14 @@ export const mainRoutes = [
   {
     path:"/chatRoom",
     component: ChatRoom
+  },
+  {
+    path:"/manage",
+    component:ManageHome
+  },
+  {
+    path:"/update",
+    component:BookUpdate
   }
 ];
 
