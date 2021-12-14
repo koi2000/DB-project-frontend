@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { withRouter } from "react-router-dom";
 import {
   Layout,
@@ -51,7 +51,7 @@ function Index(props) {
         }}
       >
         <div className="logo">
-          {/*<img src={logo} alt="logo" />*/}
+          
         </div>
         <Dropdown overlay={popMenu}>
           <div>
@@ -85,11 +85,7 @@ function Index(props) {
           </Menu>
         </Sider>
         <Layout style={{ padding: "16px" }}>
-          {/* <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb> */}
+          
           <Content
             style={{
               background: "#fff",
@@ -108,3 +104,4 @@ function Index(props) {
 const mapStateToProps = state => state.notice;
 
 export default connect(mapStateToProps)(withRouter(Index));
+*/

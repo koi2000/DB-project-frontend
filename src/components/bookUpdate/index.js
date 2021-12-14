@@ -65,7 +65,7 @@ function BookUpdate(props){
                     <Descriptions.Item label="关键词">{data.keyWord}</Descriptions.Item>
                 </Descriptions>
             </div>
-            <HoverMessage style={HoverStyle} data={props.data}>详情</HoverMessage>
+            <HoverMessage style={HoverStyle} data={props.data.bookId}>详情</HoverMessage>
             <HoverUpdate style={HoverStyle} data={props.data}>修改</HoverUpdate>
             {/*<Button style={ButtonStyle} data={props.data} >修改</Button>*/}
         </div>

@@ -17,6 +17,8 @@ import { DownOutlined } from '@ant-design/icons';
 import DefaultList from '../../components/defaultList';
 import UploadBook from '../../components/uploadBook';
 import BookUpdate from '../../components/bookUpdate';
+import BookCard from '../../components/bookCard';
+import UserList from '../../components/userList';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -63,12 +65,15 @@ function ManageHome (props) {
             }).then((response)=>{
                 let bookList = []
                 console.log("ss"+responseData.length);
-                for (let i = 0; i < responseData.length; i+=1) {  // for循环数组
+                bookList.push(
+                    <BookCard data = {responseData} type={"Update"}/>
+                )
+                /*for (let i = 0; i < responseData.length; i+=1) {  // for循环数组
                     console.log(responseData[i]);
                     bookList.push(  //将组件塞入定义的数组中
                         <BookUpdate data={responseData[i]} isShow = {1}/>
                     );
-                }
+                }*/
                 setBookLists(bookList);
             })
         }
@@ -82,13 +87,30 @@ function ManageHome (props) {
             )
         }
         if(e.key==='3'){
-            
+            console.log("发出")
+            let responseData = []
+            let param = {
+                reqDTO: {
+                    pageNow:0,
+                    pageSize:10
+                }
+            }
+            api.getUserList(param).then((response)=>{
+                responseData = response.data
+                console.log(responseData)
+                
+            }).then((response)=>{
+                let bookList = []
+                
+                bookList.push(
+                    <UserList data = {responseData}></UserList>
+                )
+
+                setBookLists(bookList);
+            })
         }
       }
       
-
-      
-
       return (
         <Layout style={{ minHeight: '100vh' }}>
           <Sider collapsible collapsed={collapsed} onCollapse={onCollapse} >
@@ -100,21 +122,7 @@ function ManageHome (props) {
                 上传图书
               </Menu.Item>
               <Menu.Item key="3" icon={<FileOutlined />}>
-                
-              </Menu.Item>
-
-
-              <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-                <Menu.Item key="9">Tom</Menu.Item>
-                <Menu.Item key="4">Bill</Menu.Item>
-                <Menu.Item key="5">Alex</Menu.Item>
-              </SubMenu>
-              <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-                <Menu.Item key="6">Team 1</Menu.Item>
-                <Menu.Item key="8">Team 2</Menu.Item>
-              </SubMenu>
-              <Menu.Item key="9" icon={<FileOutlined />}>
-                Files
+                用户管理
               </Menu.Item>
             </Menu>
           </Sider>
@@ -125,10 +133,6 @@ function ManageHome (props) {
                 <DropButton class = "dropbutton" style={dropStyle}/>
             </Header>
             <Content style={{ margin: '0 16px',height:"1500px" }}>
-              {/*<Breadcrumb style={{ margin: '16px 0' }}>
-                <Breadcrumb.Item>User</Breadcrumb.Item>
-                <Breadcrumb.Item>Bill</Breadcrumb.Item>
-                </Breadcrumb>*/}
               <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 {bookLists}
               </div>

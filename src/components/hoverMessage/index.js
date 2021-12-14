@@ -5,6 +5,7 @@ function HoverMessage(props) {
 
     const style = props.style
     const data = props.data; 
+
     const [modal1Visible,setmodal1Visible] = useState(false)
     const [modal2Visible,setmodal2Visible] = useState(false)
 
@@ -22,13 +23,14 @@ function HoverMessage(props) {
     }
 
     const queryDetail = ()=>{
+        console.log(data)
         const params={
-            bookId:data.bookId
+            bookId:data
         }
         console.log(data);
         let param = [];
         api.getDetail(params).then((response)=>{
-            console.log(response)
+            //console.log(response)
             param = response.data.data
             console.log(param)
             setBookDetail(param);

@@ -7,6 +7,10 @@ import { HashRouter, Switch, Redirect, BrowserRouter } from 'react-router-dom'
 import { mainRoutes } from "./routes";
 import {Provider} from 'react-redux'
 import store from "./store/index"
+import {PersistGate} from 'redux-persist/lib/integration/react';
+import configStore from './store/index';
+import {persistor} from './store/index';
+
 ReactDOM.render(
   
 
@@ -39,12 +43,13 @@ ReactDOM.render(
 
   
 
-  <Provider store={store}>
-    <HashRouter>
-      <App/>
-    </HashRouter>
-      
-  </Provider>,
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <HashRouter>
+                <App/>
+            </HashRouter>
+        </PersistGate>
+    </Provider>,
   
 
   

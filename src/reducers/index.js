@@ -3,8 +3,13 @@
 const { SAVE } = require("../config");
 
 const initState = {
-    username:"",
-    nickname:""
+    "userId":"",
+    "username":"",
+    "nickname":"",
+    "email":"",
+    "studentId":"",
+    "roles":[],
+    "groups":[]
 };
 const reducer = (state = initState,action)=>{
     console.log("reducer");

@@ -77,11 +77,10 @@ function ChatRoom(props){
         console.log(inputVal.current.resizableTextArea.textArea.value)
         let value = inputVal.current.resizableTextArea.textArea.value;
         let messages = JSON.stringify(value);
-            //添加事件监听
+        //添加事件监听
         ws.addEventListener('open', function () {
             ws.send(messages)
         });
-        //ws.send(JSON.stringify(value))
     }
 
     return (

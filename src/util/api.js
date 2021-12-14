@@ -60,7 +60,6 @@ function ajax(url, data = {}, type = "GET") {
           console.log(error)
           message.error("error");
         }
-        
       });
   });
 }
@@ -94,7 +93,12 @@ export const onLogout = () => {
 
 const  api =  {
   login : function (data){
-    return ajax('/user/login',data).then((response)=>{
+    return ajax('/user/login',data)
+  },
+
+  register : function(data){
+    return ajax('/user/register',data,"POST").then((response)=>{
+      onLogout();
       console.log(response.headers.userinfo);
       //console.log(response.data.data)
       const data = response.data.data;
@@ -104,13 +108,34 @@ const  api =  {
       console.log("获得"+JSON.stringify(store.getState()))
       onLogin(response.headers.userinfo);
     })
+
   },
   logout : function(){
     onLogout();
   },
 
-  getProfile:function(){
+  getUserMessge : function(data) {
+    return ajax('/manage/user/getUser',data);
+  },
+
+  getProfile: function(){
     return ajax('/user/session');
+  },
+
+  getUserList:function(data){
+    return ajax('/manage/user/list',data);
+  },
+
+  addUser:function(data){
+    return ajax("/manage/user/addUsers",data,'POST');
+  },
+
+  downLoadtemplate:function(){
+    return ajax("/user/download/template");
+  },
+
+  deleteUser:function(data){
+    return ajax("/manage/user/delete",data,'POST');
   },
 
   getBookList:function(data){
@@ -134,7 +159,7 @@ const  api =  {
   },
 
   userUpdate:function(data){
-    return ajax("/user/update",data,"POST")
+    return ajax("/manage/user/update",data,"POST")
   },
 
   returnBook:function(data){
@@ -154,6 +179,8 @@ const  api =  {
   uploadFile:function(data){
     return ajax("/file/upload",data,"POST")
   }
+
+
 }
 export default api;
 

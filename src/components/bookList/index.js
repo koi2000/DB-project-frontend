@@ -36,8 +36,6 @@ function BookList(props){
         console.log(data)
         setImage(data)
     })
-
-    const keyWord = [];
     
     return(
         <div class = "box">
@@ -59,6 +57,8 @@ function BookList(props){
                     <Descriptions.Item label="关键词">{data.keyWord}</Descriptions.Item>
                 </Descriptions>
             </div>
+
+
             <HoverMessage style={HoverStyle} data={props.data}>详情</HoverMessage>
             <BorrowBox style={ButtonStyle} data={props.data}>借阅</BorrowBox>
         </div>

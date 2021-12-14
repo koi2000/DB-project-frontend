@@ -1,5 +1,5 @@
 import { Modal, Button,Descriptions, message } from 'antd';
-import React, {useState}from 'react';
+import React, {useState,useEffect}from 'react';
 import api from '../../util/api';
 import { DatePicker, Space } from 'antd';
 import { data } from 'autoprefixer';
@@ -12,13 +12,34 @@ function BorrowBox(props) {
     const data = props.data; 
     const [modal2Visible,setmodal2Visible] = useState(false)
     const [params,setParams] = useState({})
+    const [bookDetail,setBookDetail] = useState({
+        bookName:""
+    })
+
+    const queryDetail = ()=>{
+        console.log(data)
+        const params={
+            bookId:data
+        }
+        console.log(data);
+        let param = [];
+        api.getDetail(params).then((response)=>{
+            //console.log(response)
+            param = response.data.data
+            console.log(param)
+            setBookDetail(param);
+        })
+    }
+    useEffect(() => {
+        queryDetail()
+    }, [])
     
 
     const onChange = (value, dateString) => {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString);
         let params = {
-            bookId:data.bookId,
+            bookId:data,
             start:dateString[0],
             shouldTime:dateString[1]
         }
@@ -55,14 +76,25 @@ function BorrowBox(props) {
         <Button style = {style} type="primary" onClick={borrow}>
             借阅
         </Button>
+
+        
         <Modal
-            title="书籍详情"
+            title="书籍信息"
             centered
             visible={modal2Visible}
             onOk={onOk}
             onCancel={() => setModal2Visible(false)}
         >
-            
+            <Descriptions>
+                    <Descriptions.Item label="书籍名称">{bookDetail.bookName}</Descriptions.Item>
+                    <br/><br/>
+                    <Descriptions.Item label="书籍作者">{bookDetail.author}</Descriptions.Item>
+                    <br/><br/>
+                    <Descriptions.Item label="书籍描述">{bookDetail.description}</Descriptions.Item>
+                    <br/><br/>
+                    <Descriptions.Item label="书籍数量">{bookDetail.number}</Descriptions.Item>
+            </Descriptions>
+
             <Space direction="vertical" size={12}>
                 <RangePicker
                 showTime={{ format: 'HH:mm' }}

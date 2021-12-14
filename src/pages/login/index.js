@@ -5,6 +5,7 @@ import logo1 from '../../asserts/img/logo3.jpg';
 
 import  api  from "../../util/api";
 import LoginBeauty from '../../components/login_page';
+import { useHistory } from 'react-router';
 
 
 class Login extends Component {
@@ -39,7 +40,7 @@ class Login extends Component {
             //this.resultTwo.failureInfo = error;
             console.log("失败")
         });*/
-        let history = this.props.history;
+        let history = useHistory;
         let params={
           userName: values.username,
           passWord: values.password
@@ -49,28 +50,7 @@ class Login extends Component {
         api.login(params).then((response)=>{
           //console.log(response);
           history.push("/home");
-          //<NavLink replace to="/about">About</NavLink>
         });
-        
-        
-        /*
-        axios.get(serverUrl+'/user/login', {
-          params: {
-            //uaerName: values.username,
-            userName: values.username,
-            passWord: values.password
-          }
-        })
-        .then(function (response) {
-          //console.log(response.headers['set-cookie'])
-          history.push("/home");
-          
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-        */
       };
     
       const onFinishFailed = (errorInfo) => {

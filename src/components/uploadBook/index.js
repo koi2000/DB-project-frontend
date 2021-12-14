@@ -96,7 +96,7 @@ function UploadBook(props) {
             api.createBook(values.book).then((response)=>{
                 console.log(response.data);
             })
-            console.log(values);
+            console.log(values.book);
         }
         
     };
@@ -156,7 +156,8 @@ function UploadBook(props) {
         }
       
         return e && e.fileList;
-      };
+    };
+
     return (
         <div>
             <Form {...layout} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages} style={formStyle}>
@@ -250,26 +251,18 @@ function UploadBook(props) {
                     <Input.TextArea />
                 </Form.Item>
 
-                
-
                 <Form.Item
-                    name="img"
+                    name={['book', 'image']}
                     label="封面"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
+                    extra=""
                 >
-                    <Upload
-                        name="img"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
-                        action={upload}
-                        beforeUpload={beforeUpload}
-                        onChange={handleChange}
-                        >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
+                    <Upload name="logo" action="/upload.do" listType="picture">
+                    <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
                 </Form.Item>
+               
 
                 <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
                     <Button type="primary" htmlType="submit">
