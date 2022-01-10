@@ -4,9 +4,9 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   FileOutlined,
-  TeamOutlined,
-  UserOutlined,
 } from '@ant-design/icons';
+import { Input, Space } from 'antd';
+import { AudioOutlined } from '@ant-design/icons';
 import { useState,useEffect } from 'react';
 
 import './style.less'
@@ -19,9 +19,10 @@ import api from '../../util/api';
 import { DownOutlined } from '@ant-design/icons';
 import DefaultList from '../../components/defaultList';
 import { useHistory } from 'react-router';
+import ReBorrowBox from '../../components/reBorrowBox';
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
-
+const { Search } = Input;
 
 function Home (props) {
   
@@ -32,6 +33,32 @@ function Home (props) {
     const [borrowRow,setBorrowRow] = useState([]);
     
     const history = useHistory();
+
+    const onSearch = (value)=>{
+        console.log(value)
+        const search = {
+            pageNow:0,
+            pageSize:5,
+            searchKey:value
+        }
+        api.bookSearch(search).then((response)=>{
+            setBookLists(null)
+            let bookList = []
+            responseData = response.data.rows
+            console.log(responseData)
+            bookList.push(
+                <BookCard data = {responseData}></BookCard>
+            )
+            setBookLists(bookList);
+        })
+        
+    }
+
+    const searchStyle = {
+        position:"relative",
+        top: "0px",
+        right:"-900px"
+    }
 
     const dropStyle = {
         position:"relative",
@@ -95,7 +122,7 @@ function Home (props) {
     function getBookList(){
         const data = {
             pageNow:0,
-            pageSize:10
+            pageSize:100
         }
         let responseData = []
         api.getBookList(data).then((response)=>{
@@ -107,15 +134,6 @@ function Home (props) {
             bookList.push(
                 <BookCard data = {responseData}></BookCard>
             )
-            /*
-            console.log("ss"+responseData.length);
-            for (let i = 0; i < responseData.length; i+=1) {  // for循环数组
-                console.log(responseData[i]);
-                bookList.push(  //将组件塞入定义的数组中
-                    <BookCard/>
-                    //<BookList data={responseData[i]}/>
-                );
-            }*/
             setBookLists(bookList);
         })
     }
@@ -204,6 +222,7 @@ function Home (props) {
                                     returnBook(i)
                                 }
                             }>归还</Button>
+                            <ReBorrowBox id = {responseData[i].borrowHistoryId}></ReBorrowBox>
                         </div>
                     );
                 }else{
@@ -243,14 +262,32 @@ function Home (props) {
             </Menu>
           </Sider>
 
-
           <Layout className="site-layout">
+            
             <Header className="site-layout-background" style={{ padding: 0 }} >
                 <DropButton class = "dropbutton" style={dropStyle}/>
+                
+                <Search
+                    placeholder="input search text"
+                    allowClear
+                    enterButton="Search"
+                    size="default"
+                    onSearch={onSearch}
+                    style = {{
+                        width:"500px",
+                        position:"relative",
+                        height:"50px",
+                        top:"-50px",
+                        left:"100px"
+                    }}
+                />
             </Header>
             <Content style={{ margin: '0 16px' }}>
               <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
                 {dropdown}
+                
+                
+
                 {bookLists}
               </div>
             </Content>

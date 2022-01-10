@@ -19,7 +19,6 @@ function LoginBeauty(props){
     const [registerBox,setRegisterBox] = useState()
 
     const onFinish = () => {
-
         console.log(inputName.current.value)
         console.log(inputPassword.current.value)
         

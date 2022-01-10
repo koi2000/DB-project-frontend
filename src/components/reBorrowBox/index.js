@@ -6,30 +6,26 @@ import { data } from 'autoprefixer';
 
 const { RangePicker } = DatePicker;
 
-function BorrowBox(props) {
+function ReBorrowBox(props) {
 
     const style = props.style
-    const data = props.data; 
+    const id = props.id; 
     const [modal2Visible,setmodal2Visible] = useState(false)
-    const [params,setParams] = useState({})
-    const [bookDetail,setBookDetail] = useState({
-        bookName:""
+    const [params,setParams] = useState({
+        borrowHistoryId:id
     })
+    const [borrowDetail,setBorrowDetail] = useState({})
 
     const queryDetail = ()=>{
-        console.log(data)
         const params={
-            bookId:data
+            borrowHistoryId:id
         }
-        console.log(data);
-        let param = [];
-        api.getDetail(params).then((response)=>{
-            param = response.data.data
-            console.log(param)
-            setBookDetail(param);
+        api.getBorrowHistory(params).then((response)=>{
+            setBorrowDetail(response.data)
         })
     }
     useEffect(() => {
+        console.log(props)
         queryDetail()
     }, [])
     
@@ -38,21 +34,28 @@ function BorrowBox(props) {
         console.log('Selected Time: ', value);
         console.log('Formatted Selected Time: ', dateString);
         let params = {
-            bookId:data,
-            start:dateString[0],
-            shouldTime:dateString[1]
+            borrowHistoryId:id,
+            newDate:dateString
         }
         console.log(params);
         setParams(params);
     }
 
     const onOk = ()=> {
-        console.log("ok"+params)
+        console.log("这里")
+        //console.log(value)
+        //console.log(dateString)
+        //console.log("ok")
+        //console.log(params)
+        /*let params = {
+            borrowHistoryId:id,
+            newDate:dateString
+        }*/
         setModal2Visible(false)
-        api.borrow(params).then((response)=>{
-            message.success("借阅成功")
-        }).catch((err)=>{
-            message.error(err)
+        api.reBorrow(params).then((response)=>{
+            message.success("续借成功")
+        }).catch(err=>{
+            message.error(err);
         })
     }
     const setModal2Visible=(modal2Visible)=> {
@@ -67,15 +70,14 @@ function BorrowBox(props) {
 
     
     const onOkTime = (value)=>{
-        console.log("ok"+value)
-        
-        //setModal2Visible(true)
+        console.log(value)
+        console.log("ok")
     }
 
     return (
         <>
         <Button style = {style} type="primary" onClick={borrow}>
-            借阅
+            续借
         </Button>
 
         
@@ -86,27 +88,15 @@ function BorrowBox(props) {
             onOk={onOk}
             onCancel={() => setModal2Visible(false)}
         >
-            <Descriptions>
-                    <Descriptions.Item label="书籍名称">{bookDetail.bookName}</Descriptions.Item>
-                    <br/><br/>
-                    <Descriptions.Item label="书籍作者">{bookDetail.author}</Descriptions.Item>
-                    <br/><br/>
-                    <Descriptions.Item label="书籍描述">{bookDetail.description}</Descriptions.Item>
-                    <br/><br/>
-                    <Descriptions.Item label="书籍数量">{bookDetail.number}</Descriptions.Item>
-            </Descriptions>
-
             <Space direction="vertical" size={12}>
-                <RangePicker
+                <DatePicker  
                 showTime={{ format: 'HH:mm' }}
                 format="YYYY-MM-DD HH:mm"
-                onChange={onChange}
-                onOk={onOkTime}
-                />
+                onChange={onChange} onOk={onOkTime} />
             </Space>
         </Modal>
         </>
     );
 }
 
-export default BorrowBox
+export default ReBorrowBox

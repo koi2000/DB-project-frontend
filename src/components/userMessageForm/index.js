@@ -1,4 +1,4 @@
-import { Descriptions, Badge } from 'antd';
+import { Descriptions, Badge ,message} from 'antd';
 import React,{useState} from 'react';
 import store from '../../store';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -95,7 +95,8 @@ const UserMessageForm = () => {
     
     api.register(values).then((response)=>{
       console.log("成功")
-      history.push("/home");
+      message.success("注册成功")
+      //history.push("/home");
     })
   };
 

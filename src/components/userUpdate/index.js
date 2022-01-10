@@ -122,7 +122,7 @@ function UserUpdate(props){
                             <Input />
                         </Form.Item>
 
-                        <Form.Item name={['user', 'role']} label="身份">
+                        <Form.Item name={['user', 'roles']} label="身份">
                         <Select mode="multiple" placeholder="请选择该用户的身份">
                             <Option value="user">user</Option>
                             <Option value="admin">admin</Option>

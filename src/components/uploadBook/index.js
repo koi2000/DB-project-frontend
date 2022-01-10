@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useRef} from 'react';
 import { Form, Input, InputNumber, Button } from 'antd';
 import { Upload, message } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
@@ -7,6 +7,10 @@ import {
   } from 'antd';
 import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
 import api from '../../util/api';
+import axios from 'axios';
+import { serverUrl } from '../../config';
+
+
   const { Option } = Select;
     const layout = {
     labelCol: {
@@ -16,7 +20,7 @@ import api from '../../util/api';
         span: 16,
     },
     };
-/* eslint-disable no-template-curly-in-string */
+
 
     let formStyle = {
         position:"absoulty",
@@ -64,9 +68,40 @@ import api from '../../util/api';
 function UploadBook(props) {
 
     const [bookId,setBookId] = useState();
-    /*const [initData,setInitData] = useState({
+    const [fileList,setFileList] = useState([]);
+    
 
-    });*/
+    const prop = {
+        showUploadList: true,
+        
+        beforeUpload: file => {
+          console.log(file)
+          /*let { name } = file;
+          var fileExtension = name.substring(name.lastIndexOf('.') + 1);//截取文件后缀名
+          this.props.form.setFieldsValue({ 'filename': name, 'filetype': fileExtension });//选择完文件后把文件名和后缀名自动填入表单
+          -*/
+          fileList.push(file)
+          setFileList(state => ({ 
+            fileList
+          }))
+          //this.setState();
+          return false;
+        },
+        fileList,
+    };
+
+
+    const handleOk = e => {//点击ok确认上传
+        
+        let formData = new FormData();
+        fileList.forEach(file => {
+          formData.append('file', file);
+        });
+     
+        
+      };
+
+
     let initData = {
         author: "",
         bookId: "",
@@ -85,19 +120,60 @@ function UploadBook(props) {
         }
     }
     const onFinish = (values) => {
+
+        console.log("object")
+        //console.log(fileList.fileList[0])
+        console.log("as")
         if(initData.bookId!==undefined&&initData.bookId!==null&&initData.bookId!==""){
-            console.log(values)
+
             values.book["bookId"]=initData.bookId
+            
             api.updateBook(values.book).then((response)=>{
-                console.log(response.data);
-                initData.bookId=response.data
+                if(fileList!==null&&fileList.fileList!==null&&fileList.fileList.length>0){
+                    console.log(response.data);
+                    initData.bookId=response.data
+                    
+                    let formData = new FormData();
+                    formData.append("file",fileList.fileList[0]) 
+                    
+                    formData.append("bookId",initData.bookId); 
+                    console.log("data")
+                    console.log(formData.values)
+                    axios.post(serverUrl+"/file/upload", formData).then(res => {
+                        message.success("更新成功")
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }
+                
             })
         }else{
+            console.log("asd")
+            //console.log(fileList.fileList.length)
             api.createBook(values.book).then((response)=>{
-                console.log(response.data);
+                
+                if(fileList!==null&&fileList.fileList!==null&&fileList.fileList.length>0){
+                    console.log(response.data);
+                
+                    console.log(response.data);
+                    initData.bookId=response.data
+                    
+                    let formData = new FormData();
+                    formData.append("file",fileList.fileList[0]) 
+                    
+                    formData.append("bookId",initData.bookId); 
+                    console.log("data")
+                    console.log(formData.values)
+                    axios.post(serverUrl+"/file/upload", formData).then(res => {
+                        message.success("上传成功")
+                    }).catch((err)=>{
+                        console.log(err)
+                    })
+                }
             })
             console.log(values.book);
         }
+        
         
     };
 
@@ -131,9 +207,12 @@ function UploadBook(props) {
     );
 
     const upload = (data)=>{
+        console.log("dadaw")
+        console.log(data)
         let formData = new FormData();
         formData.append("file",data) 
         formData.append("bookId",initData.bookId); 
+        console.log(formData)
         api.uploadFile(formData).then(res => { 
             console.log("成功")
             message.success(
@@ -252,13 +331,13 @@ function UploadBook(props) {
                 </Form.Item>
 
                 <Form.Item
-                    name={['book', 'image']}
+                    name={'image'}
                     label="封面"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
                     extra=""
                 >
-                    <Upload name="logo" action="/upload.do" listType="picture">
+                    <Upload name="logo"  listType="picture" {...prop}>
                     <Button icon={<UploadOutlined />}>Click to upload</Button>
                     </Upload>
                 </Form.Item>

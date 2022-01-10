@@ -1,5 +1,5 @@
 import React, {useState,useEffect}from 'react';
-import { List, Avatar, Space } from 'antd';
+import { List, Avatar, Space,Search } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import { serverUrl } from '../../config';
 import axios from 'axios';
@@ -8,19 +8,20 @@ import HoverUpdate from '../hoverUpdate';
 import BorrowBox from '../borrowBox';
 import { Components } from 'antd/lib/date-picker/generatePicker';
 import BookUpdate from '../bookUpdate';
-
-
+import ImportFile from '../importFile';
+import ImportBookFile from '../importBookFile'
+import api from '../../util/api';
 const HoverStyle = {
     position:"relative",
-    top: "150px",
+    top: "130px",
     left: "0px"
 }
 const ButtonStyle = {
     position:"relative",
-    top: "150px",
+    top: "130px",
     left: "10px"
 }
-function BookCard(props){
+function BookCard(props) {
 
     const [state,setState] = useState(props.data);
     const [button,setButton] = useState();
@@ -28,16 +29,19 @@ function BookCard(props){
     const data = props.data;
     const [image, setImage] = useState([]);
     const [hover, setHover] = useState();
+    const [isManage, setisManage] = useState(false);
+
 
     const IconText = ({ icon, text }) => (
-        <>
-            
+        <>   
         </>
     );
 
     const listData = [];
     useEffect(() => {
-        
+        api.isManage().then((response)=>{
+            setisManage(response.data);
+        })
     }, [])
     
 
@@ -62,9 +66,11 @@ function BookCard(props){
     }
     console.log(state)
     
+    const onSearch = value => console.log(value);
 
     return(
-        <List
+        <div>
+            <List
             itemLayout="vertical"
             size="large"
             pagination={{
@@ -75,10 +81,10 @@ function BookCard(props){
             }}
             dataSource={listData}
             footer={
-            <div>
-                
-            </div>
-            }
+                <div>
+                    {isManage?<ImportBookFile></ImportBookFile>:<></>}
+                </div>
+                }
             renderItem={item => (
             <List.Item
                 key={item.id}
@@ -94,7 +100,7 @@ function BookCard(props){
                     alt="logo"
                     src={ serverUrl+"/file/getImage?id="+state[item.id].img}
                 />
-                }
+                }    
             >
                 <HoverMessage style={HoverStyle} data={item.bookId}>详情</HoverMessage>
                 {props.type==="Update"? <HoverUpdate style={HoverStyle} data={state[item.id]}>修改</HoverUpdate>
@@ -110,6 +116,8 @@ function BookCard(props){
             
             )}
         />
+        </div>
+        
     );
 }
 

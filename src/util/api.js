@@ -71,7 +71,7 @@ export const loginUser = () => {
 
 //查看是否登陆
 export const isLogin = () => {
-  let user =  cookie.load(cookieName)
+  let user = cookie.load(cookieName)
   if(user===null||user===undefined){
     return false
   }else{
@@ -92,7 +92,7 @@ export const onLogout = () => {
 
 
 const  api =  {
-  login : function (data){
+  login : function (data) {
     return ajax('/user/login',data)
   },
 
@@ -116,6 +116,10 @@ const  api =  {
 
   getUserMessge : function(data) {
     return ajax('/manage/user/getUser',data);
+  },
+
+  isManage:function(){
+      return ajax("/user/isManage");
   },
 
   getProfile: function(){
@@ -178,6 +182,24 @@ const  api =  {
   },
   uploadFile:function(data){
     return ajax("/file/upload",data,"POST")
+  },
+  getChatUser:function(data){
+    return ajax("/message/getChatUser")
+  },
+  setChatUser:function(data){
+    return ajax("/message/setChatUser",data)
+  },
+  chatHistory:function(data){
+    return ajax("/message/history",data);
+  },
+  bookSearch:function(data){
+    return ajax("/book/search",data,"POST");
+  },
+  reBorrow: function(data){
+    return ajax("/book/ReBorrow",data);
+  },
+  getBorrowHistory:function(data){
+    return ajax("/book/getBorrowHistory",data)
   }
 
 

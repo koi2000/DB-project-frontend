@@ -105,7 +105,6 @@ function ManageHome (props) {
                 bookList.push(
                     <UserList data = {responseData}></UserList>
                 )
-
                 setBookLists(bookList);
             })
         }

@@ -31,28 +31,6 @@ function BorrowList(props){
         setName(response.data);
     })
 
-    /*
-    const returnBook = ()=>{
-        console.log("return")
-        api.returnBook({
-            borrowHistoryId:data.borrowHistoryId
-        }).then((response)=>{
-            message.success("还书成功")
-            //data.realTime=response.data
-            setState({realTime:response.data})
-            setBtn(null)
-        })
-    }*/
-
-    
-    /*if((state.realTime===null||state.realTime==="")&&flag===0){
-        console.log("进入")
-        let tmp = flag+1;
-        setFlag(tmp);
-        setBtn(
-            <Button onClick={returnBook} style = {ButtonStyle}>还书</Button>
-        )
-    }*/
 
     return(
         <>
@@ -63,7 +41,6 @@ function BorrowList(props){
                 <Descriptions.Item label="应还日期">{state.shouldTime}</Descriptions.Item>
                 <Descriptions.Item label="还书日期">{state.realTime}</Descriptions.Item>
             </Descriptions>
-            
         </>
     )
 }

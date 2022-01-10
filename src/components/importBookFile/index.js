@@ -20,7 +20,7 @@ const layout = {
 const { Option } = Select;
 /* eslint-disable no-template-curly-in-string */
 
-function ImportFile(props){
+function ImportBookFile(props){
 
     const [userNow, setUserNow] = useState();
 
@@ -52,7 +52,7 @@ function ImportFile(props){
     const downloadTemplate = ()=>{
         //url:api地址
         //params:参数
-        axios.get(serverUrl+"/manage/user/download/template",  {
+        axios.get(serverUrl+"/manage/book/download/template",  {
             responseType: 'blob'
         }).then((res) =>{
             
@@ -62,16 +62,16 @@ function ImportFile(props){
             let url = window.URL.createObjectURL(blob)
             const link = document.createElement('a') // 创建a标签
             link.href = url
-            link.download = '用户导入模板.xlsx' // 重命名文件
+            link.download = '书籍导入模板.xlsx' // 重命名文件
             link.click()
             URL.revokeObjectURL(url)
         })
     }
 
-    const downloadUser = ()=>{
+    const downloadBook = ()=>{
         //url:api地址
         //params:参数
-        axios.get(serverUrl+"/manage/user/download/user",  {
+        axios.get(serverUrl+"/manage/book/download/book",  {
             responseType: 'blob'
         }).then((res) =>{
             
@@ -81,7 +81,7 @@ function ImportFile(props){
             let url = window.URL.createObjectURL(blob)
             const link = document.createElement('a') // 创建a标签
             link.href = url
-            link.download = '用户.xlsx' // 重命名文件
+            link.download = '书籍.xlsx' // 重命名文件
             link.click()
             URL.revokeObjectURL(url)
         })
@@ -93,7 +93,7 @@ function ImportFile(props){
         let formData = new FormData();
         formData.append("file",value.file) 
         
-        axios.post(serverUrl+"/manage/user/importUser", formData).then(res => {
+        axios.post(serverUrl+"/manage/book/importBook", formData).then(res => {
             message.success("导入成功")
         }).catch((err)=>{
             console.log(err)
@@ -119,21 +119,22 @@ function ImportFile(props){
 
                 <content>
                     <Upload
-                        //action={serverUrl+"/manage/user/importUser"}
+                        action={serverUrl+"/manage/user/importBook"}
                         listType="picture"
                         maxCount={1}
                         accept=".xls,.xlsx"
-                        customRequest={upload}
+                        customRequest = {upload}
                         withCredentials={true}>
+                        
                         <Button icon={<UploadOutlined />}>Upload (Max: 1)</Button>
                     </Upload>
 
                     <Button onClick={downloadTemplate}>下载模板</Button>
-                    <Button onClick={downloadUser}>导出</Button>
+                    <Button onClick={downloadBook}>导出</Button>
                 </content>
                 
             </Modal>    
         </div>    
     )
 }
-export default ImportFile
+export default ImportBookFile

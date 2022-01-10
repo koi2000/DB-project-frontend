@@ -51,18 +51,14 @@ function DropButton(props){
           let user = store.getState()
           var role = user.roles;
           var flag = 0;
-          for(let i =0;i<role.length;i++){
-            if(role[i]==='admin'){
-              flag=1;
+          api.isManage().then((response)=>{
+            console.log(response)
+            if(response.data){
+              history.push("/manage")
+            }else{
+              message.error("用户无权限");
             }
-          }
-          if(flag===1) {
-            console.log(role.length)
-            history.push("/manage")
-          }else {
-            console.log("用户无权限")
-            message.error("用户无权限");
-          }
+        })
         }
       }
     
